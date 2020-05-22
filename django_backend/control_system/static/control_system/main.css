@@ -1,0 +1,219 @@
+/***************Universal body settings***************/
+body {
+    padding-top: 80px;
+    background-color: rgb(248, 248, 248);
+}
+
+
+/*****************NAV BAR SETTINGS******************/
+
+.navbar {
+    /*border: 1px solid red;*/
+    padding: 0 10px 0 10px;
+}
+
+/*Accesing and overriding the left and right padding settings for all nav-links*/
+@media (min-width: 992px){
+    .navbar-expand-lg .navbar-nav .nav-link {
+        padding-right: 0; 
+        padding-left: 0;
+        
+    }
+}
+
+/***Navbar brand text settings***/
+span.brand-text {
+    font-family: Oswald, sans-serif;
+    font-weight: 600;
+    font-size: large;
+    padding:0 0 0 0px;
+}
+
+sup.text-muted {
+    font-family: Oswald, sans-serif;
+    font-weight: 100;
+    font-size: small;
+    padding:0 0 0 5px;
+}
+
+/*Font-awesome user dropdown icon size. */
+.fa-user {
+    font-size: 1.3em;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+/* Accessing the default color settings (black) for bootstrap nav-links */ 
+.navbar-light .navbar-nav .nav-item .nav-link {
+    color: rgba(0,0,0,1);
+    transition: all 75ms ease-in-out;
+}
+
+/* Animating a new nav-link color on hover and persistence when state is active*/ 
+.navbar-light .navbar-nav .nav-item:hover .nav-link, .navbar-light .navbar-nav .active> .nav-link {
+    color: #ff0707;
+}
+
+/***Animation Settings for the nav items-comment out the border tag to
+get visual feedback about settings below***/
+
+/** Accessing the nav-item  setting for padding, margins, borders **/
+.nav-item a {
+    position: relative;
+    display: inline-block;
+    /*border: 1px solid blue;*/
+    padding-bottom: 12px;
+    padding-top: 12px;
+    margin-right: 20px;
+}
+
+/* Creation and animation of the line below links plus the hover and active settings */
+.nav-item a::after {
+    content: "";
+    background: rgba(255, 7, 7, 0);
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    transition: all 300ms ease-in-out;
+}
+
+.nav-item:hover a::after, .nav-item.active a::after {
+    background: rgba(255, 7, 7, 1);
+    height: 3.5px;
+}
+
+/******Dropdown menu item settings and animations*******/
+
+/* Overriding the overall 'link:after' settings for the drop-down menu items*/
+.dropdown-menu .dropdown-item::after {
+    content: none;
+}
+/* Animation settings for dropdown items on hover*/
+.dropdown-menu .dropdown-item {
+    padding-bottom: 5px;
+    padding-top: 5px;
+    color: black;
+    transition: color 300ms ease;
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+    color: white;
+    background-color: rgba(255, 7, 7, 1);
+}
+
+/* Settings to automate the user drop down menu on hover*/
+.dropdown:hover>.dropdown-menu{
+    display: block;
+}
+
+/*Dropdown menu settings(top margin is given a value of 0 to avoid glitching during hover*/
+.dropdown-menu {
+    margin-top: 0;
+}
+
+/*****************NAV BAR SETTINGS END HERE******************/
+
+
+/*****************Login Section starts******************/
+.content-section {
+    background: #ffffffe3;
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 
+        0 6px 6px 0px rgba(0, 0, 0, 0.1),
+        0 4px 4px 0px rgba(0, 0, 0, 0.2)
+}
+
+@media (min-width: 992px) {
+    .content-section {
+        width: 40%;
+        justify-content: start;
+    }
+}
+
+.account-img {
+    height: 125px;
+    width: 125px;
+    margin-right: 20px;
+    margin-bottom: 16px;
+  }
+  
+.account-heading {
+    font-size: 2.5rem;
+  }
+
+#right-tower-connector {
+    fill: none;
+    stroke: #FCCC6B;  
+    stroke-width: 2; 
+    stroke-dasharray: 5;
+    animation: dash 1s linear forwards;
+    animation-iteration-count: infinite;
+}
+
+#left-tower-connector {
+    fill: none;
+    stroke: #FCCC6B;  
+    stroke-width: 2; 
+    stroke-dasharray: 5;
+    animation: dash 1s linear;
+    animation-iteration-count: infinite;
+}
+
+#longest-connector {
+    fill: none;
+    stroke: rgb(236, 35, 0);  
+    stroke-width: 2; 
+    stroke-dasharray: 5;
+    animation: dash 1s linear;
+    animation-iteration-count: infinite;
+}
+
+#straight-2-tower-connector {
+    fill: none;
+    stroke: #FCCC6B;  
+    stroke-width: 2; 
+    stroke-dasharray: 5;
+    animation: dash 1s linear;
+    animation-iteration-count: infinite;
+}
+
+#blue-connector-1 {
+    fill: none;
+    stroke: #88FFF3;  
+    stroke-width: 2; 
+    stroke-dasharray: 5;
+    animation: dash 1s linear;
+    animation-iteration-count: infinite;
+}
+
+#blue-connector-2_1_ {
+    fill: none;
+    stroke: #88FFF3;  
+    stroke-width: 2; 
+    stroke-dasharray: 5;
+    animation: dash 1s linear;
+    animation-iteration-count: infinite;
+}
+
+#blue-connector-3 {
+    fill: none;
+    stroke: #88FFF3;  
+    stroke-width: 2; 
+    stroke-dasharray: 5;
+    animation: dash 1s linear;
+    animation-iteration-count: infinite;
+}
+
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: 20;
+    }
+    
+}
+
