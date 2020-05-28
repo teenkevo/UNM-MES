@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'control_system.apps.ControlSystemConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
@@ -53,6 +54,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'django_backend.urls'
+ASGI_APPLICATION = "django_backend.routing.application"
 
 TEMPLATES = [
     {
