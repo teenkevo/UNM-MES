@@ -1,9 +1,13 @@
 /***************Universal body settings***************/
 body {
-    padding-top: 80px;
-    background-color: rgb(248, 248, 248);
+    padding-top: 55px;
+    background-color: rgb(240, 240, 240);
 }
 
+/**** Algorithm paragraph details line height ****/
+p.details {
+    line-height: 1.1;
+}
 
 /*****************NAV BAR SETTINGS******************/
 
@@ -41,6 +45,10 @@ sup.text-muted {
     font-size: 1.3em;
     padding-left: 4px;
     padding-right: 4px;
+}
+
+.fa-microchip {
+    color: #ff0707;
 }
 
 /* Accessing the default color settings (black) for bootstrap nav-links */ 
@@ -117,15 +125,117 @@ get visual feedback about settings below***/
 
 /*****************NAV BAR SETTINGS END HERE******************/
 
+/*****************Animated Collapsibles for body******************/
+.collapsible {
+    background-color:rgba(255, 255, 255);
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    transition: all 300ms ease;    
+}
+  
+.collapsible.active, .collapsible:hover, .collapsible:focus {
+    background-color: rgb(255, 255, 255);
+    outline: none;
+    color: rgba(255, 7, 7, 1) ;
+}
+
+.collapsible:after {
+    content: '\002B';
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+
+.collapsible.active:after {
+    content: "\2212";
+}
+
+.content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #f1f1f1;
+    margin-top: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+/*****************MQTT Broker Config******************/
+
+#connection-info-form input {
+    border: none;
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+#connection-info-form input[type=text] {
+    width: 100%;
+    padding: 6px 6px;
+    margin: 8px 0;
+}
+.connect-button {
+    background-color: hsla(211, 100%, 49%, 0.644);
+}
+.disconnect-button {
+    background-color: #686868;
+}
+#connection-info-form input[type=button] {
+    border: none;
+    border-radius: 1px;
+    color: white;
+    padding: 6px 12px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .2s ease all;
+}
+#connection-info-form input[type=text]:focus {
+    background-color: lightblue;
+}
+.disconnect-button:hover {
+    background-color: rgba(255, 7, 7, 1);
+}
+
+.connect-button:hover {
+    background-color: #007afc;
+}
+
+#messages {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    padding: 12px;
+    width:100%;
+    display: inline-block;
+    border:1px solid black;
+    max-height: 250px;
+    min-height: 250px;
+    overflow: scroll;
+}
+#messages span {
+    overflow-y: scroll;
+    overflow: scroll;
+    font-size: 12px;
+}
+
+.connect-status {
+    color: green;
+}
+
+.disconnect-status {
+    color: rgba(255, 7, 7, 1);
+}
 
 /*****************Login Section starts******************/
 .content-section {
-    background: #ffffffe3;
-    padding: 10px 20px;
-    border-radius: 10px;
-    box-shadow: 
-        0 6px 6px 0px rgba(0, 0, 0, 0.1),
-        0 4px 4px 0px rgba(0, 0, 0, 0.2)
+    background: rgba(255, 255, 255);
+    padding: 10px 10px;
+    border-radius: 1px;
+    
 }
 
 @media (min-width: 992px) {

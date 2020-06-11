@@ -2,26 +2,222 @@
 {% block content %}
 
 <div class="row justify-content-around">
-    <div class="col-3 content-section">
+    <div class="col-11 col-sm-11 col-md-11 mb-1 content-section">
+        <a class="btn btn-primary btn-sm mb-3" href="{% url 'algorithm-create'%}">Configure New Algorithm</a>
         {% for algorithm in algorithms %}
-            <h6><a class="algorithm-name" href="{% url 'algorithm-detail' algorithm.id %}">{{ algorithm.name }}</a></h5> 
-            <p class="pb-1 border-top text-muted">
+            <h6><i class="fas fa-microchip pr-3"></i><a class="algorithm-name" style="color: black;" href="{% url 'algorithm-detail' algorithm.id %}">{{ algorithm.name }}</a></h6> 
+            <p class="details border-top text-muted">
                 <small>
-                    Algorithm for {{ algorithm.description }}.<br/>
-                    Version: {{ algorithm.version }} <br/>
-                    Created at: {{ algorithm.created_at }} <br/>
-                    Created by: {{ algorithm.owner }}
+                    {{ algorithm.description }},
+                    Version: {{ algorithm.version }},
+                    Added: {{ algorithm.created_at }},
+                    Owner: {{ algorithm.owner }}
                 </small>
             </p>
-        {% endfor %}
-        <a class="btn btn-outline-primary btn-sm" href="{% url 'algorithm-create'%}">Add New Algorithm</a>
+        {% endfor %}   
     </div>
-    <div class="col-2 content-section">
-        Data query
+    
+    <div class="col-11 col-sm-11 col-md-11 mb-1 content-section">
+        <button class="collapsible">
+            <i class="fa fa-cog pr-3" aria-hidden="true"></i>MQTT Broker Configuration
+        </button>
+        <div class="content">
+            <form id="connection-info-form">
+                <small>
+                    <div class="form-row">
+                        <div class="col-12 col-md-4">
+                            <b>Hostname or IP Address:</b> 
+                            <input id="hostname" type="text" class="text-muted" name="host" value="unm-mqtt-broker.duckdns.org"><br>
+                        </div>
+                        <div class="col-12 col-md-4">  
+                            <b>Port:</b>
+                            <input id="port" type="text" class="text-muted" name="port" value="8083"><br>
+                        </div> 
+                        <div class="col-12 col-md-4"> 
+                            <b>Topic:</b>
+                            <input id="topic" type="text" class="text-muted" name="topic" value="sensors/dht/tts"><br><br>
+                        </div>
+                    </div>
+                    <input type="button" class="connect-button" onclick="startConnect()" value="Connect">
+                    <input type="button" class="disconnect-button" onclick="startDisconnect()" value="Disconnect">
+                    <div class="pt-2" id="connection-status"></div>
+                </small>
+            </form>
+            <div id="messages"></div>
+        </div>
     </div>
 
-    <div class="col-6 content-section">
-        BIM-Model
+    <div class="col-11 col-sm-11 col-md-11 mb-1 content-section">
+        <button class="collapsible">
+            <i class="fa fa-database pr-3" aria-hidden="true"></i>Incoming Data Payload
+        </button>
+        <div class="content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+        
+    </div>
+
+    <div class="col-11 col-sm-11 col-md-11 mb-1 content-section">
+        <button class="collapsible">
+            <i class="far fa-question-circle pr-3" aria-hidden="true"></i>Data Query
+        </button>
+        <div class="content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>    
+    </div>
+
+    <div class="col-11 col-sm-11 col-md-11 mb-1 content-section">
+        <button class="collapsible">
+            <i class="far fa-building pr-3" aria-hidden="true"></i>BIM Model
+        </button>
+        <div class="content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>    
     </div>
 </div>
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.maxHeight){
+          content.style.maxHeight = null;
+        } else {
+          content.style.maxHeight = content.scrollHeight + "px";
+        } 
+      });
+    }
+</script>
+
+<!-- Javascript CDN for Paho MQTT Client -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.1.0/paho-mqtt.js" type="text/javascript"></script>
+
+<!-- Javascript MQTT Client logic-->
+<script type="text/javascript">
+
+    function startConnect(){
+        // Generating a random client ID
+        clientID = "clientID_" + parseInt(Math.random() * 100);
+
+        // Fetching the hostname/IP address and port number from the form to create a client instance
+        hostname = document.getElementById("hostname").value;
+        port = document.getElementById("port").value;
+
+        // Printing the connection status for the user in the messages div
+        document.getElementById("messages").innerHTML += '<span>Connecting to: ' + hostname + ' on port: ' + port + '</span><br/>';
+        document.getElementById("messages").innerHTML += '<span>Using the following client value: ' + clientID + '</span><br/>';
+
+        //Initializing a new Paho MQTT client connection
+        client = new Paho.Client(hostname, Number(port), clientID);
+
+        // set callback handlers
+        client.onConnectionLost = onConnectionLost;
+        client.onMessageArrived = onMessageArrived;
+
+        // connect the Paho MQTT client to the BROKER server
+        client.connect(
+            {onSuccess:onConnect,
+                useSSL:true,
+                userName:"kevin",
+                password:"Pl33nkmls49x@"
+            }
+        );
+    }
+
+    // called when the client connects
+    function onConnect() {
+        // Once a connection has been made, make a subscription and send a message.
+        console.log("CONNECTED");
+
+        // Printing connection status on UI
+        document.getElementById("connection-status").innerHTML = '<span class ="connect-status"> <b>Status: </b> Connected to MQTT server: ' + hostname + '</span>';
+
+        // Fetching the MQTT topic from the form
+        topic = document.getElementById("topic").value;
+
+        // Printing output topic subscription status for the user in the messages div
+        document.getElementById("messages").innerHTML += '<span>Subscribing to: ' + topic + '</span><br/>';
+
+        // Subscribe to requested topic
+        client.subscribe(topic);
+        //message = new Paho.Message("Message");
+        //message.destinationName = "sensors/testing";
+        //client.send(message);
+    }
+
+    // called when the client loses its connection
+    function onConnectionLost(responseObject) {
+        document.getElementById("messages").innerHTML += '<span>ERROR: Connection lost</span><br/>';
+        if (responseObject.errorCode !== 0) {
+            console.log("onConnectionLost:"+responseObject.errorMessage);
+            document.getElementById("messages").innerHTML += '<span>ERROR: ' + responseObject.errorMessage + '</span><br/>';
+        }
+    }
+
+    // called when a message arrives
+    function onMessageArrived(message) {
+        
+        //console.log("onMessageArrived:"+message.payloadString);
+        document.getElementById("messages").innerHTML += '<span>Topic: ' + message.destinationName + '  | ' + message.payloadString + '</span><br/>';
+        
+        // Storing the incoming JSON payload string in a global variable accesible by the second websocket(sensorSocket)
+        window.payloadJSON = message.payloadString;
+        console.log(payloadJSON);
+
+        // Function from second WebSocket(sensorSocket) accesing the JSON payload string variable and sending it to the django consumer
+        sendPayloadToConsumer();  
+    }
+
+    // Called when the disconnection button is pressed
+    function startDisconnect() {
+        client.disconnect();
+        document.getElementById("connection-status").innerHTML = '<span class ="disconnect-status"> <b>Status: </b> Disconnected from MQTT server: ' + hostname + '</span>';
+        document.getElementById("messages").innerHTML += '<span>Disconnected</span><br/>';
+        updateScroll(); // Scroll to bottom of window
+    }
+
+    // Updates #messages div to auto-scroll
+    function updateScroll() {
+        var element = document.getElementById("messages");
+        element.scrollTop = element.scrollHeight;
+    }
+
+
+
+    //---------------------------WEBSOCKET Fetching MQTT JSON Payload to Django-------------------------//
+    
+    var loc = window.location
+    
+    // WebSocket Protocol logic
+    var wsStart = 'ws://'
+    if (loc.protocol == 'https:'){
+        wsStart = 'wss://'
+    }
+
+    // Creating the websocket (sensorSocket)
+    var endpoint = wsStart + loc.host + loc.pathname
+    window.sensorSocket = new WebSocket(endpoint)
+
+    sensorSocket.onmessage = function(e) {
+        console.log("message", e)
+    }
+
+    // Function to access the JSON payload received by the subscribed MQTT Client and send it to the django consumer
+    function sendPayloadToConsumer() {
+        window.sensorSocket.send(payloadJSON)
+    }
+
+    sensorSocket.onopen = function(e) {
+        console.log("open", e)
+    }
+    sensorSocket.onerror = function(e) {
+        console.log("error", e)
+    }
+    sensorSocket.onclose = function(e) {
+        console.log("close", e)
+    }   
+</script>
 {% endblock content %}

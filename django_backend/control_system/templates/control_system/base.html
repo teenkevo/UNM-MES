@@ -115,53 +115,5 @@
             $(this).addClass('active').siblings().removeClass('active')
         })
     </script>
-
-    <!-- Javascript CDN for Paho MQTT Client -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.1.0/paho-mqtt.js" type="text/javascript"></script>
-    
-    <!-- Javascript MQTT Client logic-->
-    <script type="text/javascript">
-    
-        // Create a client instance
-        var hostname = "unm-mqtt-broker.duckdns.org";
-        var port = 8083;
-        var client = new Paho.Client(hostname, Number(port), "clientId");
-
-        // set callback handlers
-        client.onConnectionLost = onConnectionLost;
-        client.onMessageArrived = onMessageArrived;
-
-        // connect the client
-        client.connect(
-            {onSuccess:onConnect,
-             useSSL:true,
-             userName:"kevin",
-             password:"Pl33nkmls49x@"
-            }
-        );
-
-        // called when the client connects
-        function onConnect() {
-            // Once a connection has been made, make a subscription and send a message.
-            console.log("CONNECTED");
-            client.subscribe("sensors/#");
-            message = new Paho.Message("Message");
-            message.destinationName = "sensors/testing";
-            client.send(message);
-        }
-
-        // called when the client loses its connection
-        function onConnectionLost(responseObject) {
-            if (responseObject.errorCode !== 0) {
-                console.log("onConnectionLost:"+responseObject.errorMessage);
-            }
-        }
-
-        // called when a message arrives
-        function onMessageArrived(message) {
-            console.log("onMessageArrived:"+message.payloadString);
-        }
-    </script>
-
 </body>
 </html>
