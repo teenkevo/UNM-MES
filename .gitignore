@@ -74,6 +74,9 @@ docs/_build/
 # PyBuilder
 target/
 
+# react
+node_modules/
+
 # Jupyter Notebook
 .ipynb_checkpoints
 
